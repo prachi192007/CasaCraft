@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Designs | AI Interior Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    
+    <style>
+        * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { margin: 0; height: 100vh; background: #f4efe7; display: flex; justify-content: center; align-items: center; }
+        
+        .card { 
+            width: 85%; max-width: 1100px; height: 80%; 
+            background: #fff; border-radius: 24px; 
+            display: flex; flex-direction: column; 
+            overflow: hidden; position: relative; padding: 30px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
+        }
+
+        .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        h2 { color: #355f4a; margin: 0; }
+        .back-link { text-decoration: none; color: #355f4a; font-weight: 600; display: flex; align-items: center; gap: 5px; cursor: pointer; }
+
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 25px; 
+            overflow-y: auto; 
+            padding-bottom: 80px; 
+        }
+
+        .img-wrapper {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid #eee;
+        }
+
+        .grid img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            transition: transform 0.3s ease;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #d9534f;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: 0.3s;
+            z-index: 2;
+        }
+
+        .img-wrapper:hover .delete-btn { opacity: 1; }
+        .img-wrapper:hover img { transform: scale(1.05); }
+        .delete-btn:hover { background: #d9534f; color: white; }
+
+        .bottom-nav { 
+            position: absolute; bottom: 20px; left: 50%; 
+            transform: translateX(-50%); width: 450px; 
+            background: #fff; border-radius: 30px; 
+            display: flex; justify-content: space-around; 
+            padding: 14px 0; box-shadow: 0 8px 30px rgba(0,0,0,0.15); 
+        }
+        
+        .bottom-nav a { text-decoration: none; color: #555; font-size: 14px; font-weight: 500; }
+        .bottom-nav a.active { color: #355f4a; font-weight: 600; }
+
+        #no-designs { text-align: center; color: #888; margin-top: 60px; grid-column: 1 / -1; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="header-row">
+        <a href="profile.html" class="back-link">
+            <span class="material-symbols-outlined">arrow_back</span> Back to Profile
+        </a>
+        <h2>Downloaded Designs 📥</h2>
+        <div style="width: 100px;"></div> </div>
+
+    <div class="grid" id="savedGrid"></div>
+
+    <div class="bottom-nav">
+        <a href="index.html">Home</a>
+        <a href="explore.html">Explore</a>
+        <a href="profile.html" class="active">Profile</a>
+    </div>
+</div>
+
+<script>
+    const grid = document.getElementById('savedGrid');
+
+    function renderGallery() {
+        const saved = JSON.parse(localStorage.getItem('downloadedDesigns')) || [];
+        grid.innerHTML = ""; 
+
+        if (saved.length === 0) {
+            grid.innerHTML = `<div id="no-designs"><p>No saved designs yet.</p></div>`;
+        } else {
+            saved.forEach((item, index) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'img-wrapper';
+                
+                // Support both simple URL strings and the {image: data} object format
+                const imgSrc = (typeof item === 'object') ? item.image : item;
+
+                wrapper.innerHTML = `
+                    <img src="${imgSrc}" alt="Saved Interior">
+                    <button class="delete-btn" onclick="deleteDesign(${index})" title="Remove from Profile">
+                        <span class="material-symbols-outlined">delete</span>
+                    </button>
+                `;
+                grid.appendChild(wrapper);
+            });
+        }
+    }
+
+    function deleteDesign(index) {
+        let saved = JSON.parse(localStorage.getItem('downloadedDesigns')) || [];
+        saved.splice(index, 1);
+        localStorage.setItem('downloadedDesigns', JSON.stringify(saved));
+        renderGallery();
+    }
+
+    renderGallery();
+</script>
+</body>
+</html>

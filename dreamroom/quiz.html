@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Interior Design | Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --pista: #2f5d5a;
+    --beige: #f4efe7;
+    --white: #ffffff;
+    --text: #5b4636;
+}
+
+* { box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
+    url("https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* SIDE NAVIGATION DRAWER */
+.side-nav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    right: 0;
+    background-color: var(--pista);
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+}
+
+.side-nav a {
+    padding: 15px 32px;
+    text-decoration: none;
+    font-size: 18px;
+    color: white;
+    display: block;
+    transition: 0.3s;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.side-nav a:hover { background-color: rgba(255,255,255,0.2); }
+
+.side-nav .close-btn {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    font-size: 36px;
+    color: white;
+    cursor: pointer;
+}
+
+/* QUIZ CARD */
+.card {
+    width: 90%;
+    max-width: 1000px;
+    height: 80%;
+    background: var(--white);
+    border-radius: 28px;
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+}
+
+.left {
+    width: 40%;
+    background: var(--pista);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: white;
+}
+
+.left h2 { margin: 0 0 15px; font-size: 28px; }
+.left p { font-size: 15px; opacity: 0.9; line-height: 1.6; }
+
+.right {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: #fafafa;
+}
+
+.quiz-box { width: 100%; max-width: 450px; }
+
+.question {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--pista);
+    margin-bottom: 25px;
+}
+
+.option {
+    background: white;
+    border: 2px solid #eee;
+    border-radius: 12px;
+    padding: 15px;
+    margin: 10px 0;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: 500;
+}
+
+.option:hover {
+    border-color: var(--pista);
+    background: #f0f7f6;
+    transform: scale(1.02);
+}
+
+.progress { margin-top: 20px; color: #888; font-size: 14px; }
+
+.unlock { display: none; }
+.unlock h2 { color: var(--pista); font-size: 24px; }
+
+.go-btn {
+    background: var(--pista);
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+/* MENU ICON */
+.menu-icon {
+    position: absolute;
+    top: 25px;
+    right: 30px;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--pista);
+}
+
+/* BOTTOM NAV */
+.bottom-nav {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    background: white;
+    border-radius: 30px;
+    display: flex;
+    justify-content: space-around;
+    padding: 12px 0;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.bottom-nav a {
+    text-decoration: none;
+    color: #999;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.bottom-nav a.active { color: var(--pista); }
+
+</style>
+</head>
+<body>
+
+<div id="mySideNav" class="side-nav">
+    <span class="close-btn" onclick="toggleSideNav()">&times;</span>
+    <a href="index.html">Home</a>
+    <a href="explore.html">Explore</a>
+    <a href="liked.html">Liked Designs</a>
+    <a href="profile.html">Profile</a>
+    <a href="login.html">Logout</a>
+</div>
+
+<div class="card">
+    <div class="menu-icon" onclick="toggleSideNav()">☰</div>
+
+    <div class="left">
+        <h2>Premium Challenge</h2>
+        <p>Complete this interior design quiz to prove your style and unlock our <strong>Premium Collection</strong>.</p>
+        <p>🎯 Correctly answer 5 questions.</p>
+    </div>
+
+    <div class="right">
+        <div class="quiz-box">
+            <div id="quiz-content">
+                <div class="question" id="question"></div>
+                <div id="options"></div>
+                <div class="progress" id="progress"></div>
+            </div>
+
+            <div class="unlock" id="unlock">
+                <h2>🎉 Premium Unlocked!</h2>
+                <p>You have successfully unlocked the 1-Month Free Trial designs.</p>
+                <button class="go-btn" onclick="location.href='explore.html'">Start Exploring</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <a href="index.html">Home</a>
+        <a href="explore.html">Explore</a>
+        <a href="profile.html">Profile</a>
+    </div>
+</div>
+
+<script>
+// Sidebar Toggle
+function toggleSideNav() {
+    const sideNav = document.getElementById("mySideNav");
+    sideNav.style.width = (sideNav.style.width === "250px") ? "0" : "250px";
+}
+
+const quiz = [
+    {
+        question: "Which color palette creates a calm bedroom?",
+        options: ["Beige and soft brown", "Bright red and yellow", "Neon green", "Black and orange"],
+        answer: 0
+    },
+    {
+        question: "Which lighting suits a modern living room?",
+        options: ["Warm LED strip lighting", "Disco lights", "Tube light only", "Colored party lights"],
+        answer: 0
+    },
+    {
+        question: "Best material for luxury kitchen countertops?",
+        options: ["Granite or marble", "Plastic sheet", "Rubber slab", "Cardboard"],
+        answer: 0
+    },
+    {
+        question: "Which color makes small rooms look bigger?",
+        options: ["Light white or cream", "Dark purple", "Bright red", "Black"],
+        answer: 0
+    },
+    {
+        question: "Which interior style uses minimal furniture?",
+        options: ["Minimalist", "Baroque", "Victorian", "Maximalist"],
+        answer: 0
+    }
+];
+
+let current = 0;
+
+const questionEl = document.getElementById("question");
+const optionsEl = document.getElementById("options");
+const progressEl = document.getElementById("progress");
+const quizContent = document.getElementById("quiz-content");
+const unlockEl = document.getElementById("unlock");
+
+function loadQuestion() {
+    const q = quiz[current];
+    questionEl.innerText = q.question;
+    optionsEl.innerHTML = "";
+
+    q.options.forEach((opt, i) => {
+        const div = document.createElement("div");
+        div.classList.add("option");
+        div.innerText = opt;
+        div.onclick = () => checkAnswer(i);
+        optionsEl.appendChild(div);
+    });
+
+    progressEl.innerText = "Progress: " + (current + 1) + " / 5";
+}
+
+function checkAnswer(selected) {
+    if (selected === quiz[current].answer) {
+        current++;
+        if (current === quiz.length) {
+            quizContent.style.display = "none";
+            unlockEl.style.display = "block";
+            return;
+        }
+        loadQuestion();
+    } else {
+        alert("Wrong answer 😅 Try again!");
+    }
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>

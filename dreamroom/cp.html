@@ -1,0 +1,218 @@
+MAIN PAGE:<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team | AI Interior Design Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #355f4a;
+            --hover-green: #2a4b3a;
+            --bg-beige: #f4efe7;
+            --white: #ffffff;
+            --text-main: #333;
+            --text-muted: #777;
+        }
+
+        * { box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)),
+                        url("https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .card-container {
+            width: 85%;
+            max-width: 1100px;
+            height: 85%;
+            background: #fff;
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            background: var(--primary-green);
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .header h2 { flex: 1; text-align: center; margin: 0; font-weight: 600; font-size: 18px; }
+        .back, .menu { cursor: pointer; font-size: 22px; }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+            background: #fafafa;
+            scroll-behavior: smooth;
+            padding-bottom: 100px; /* Space for bottom nav */
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 22px;
+            margin-top: 20px;
+        }
+
+        .team-card {
+            background: white;
+            border-radius: 18px;
+            padding: 20px;
+            border: 1px solid #eee;
+            transition: transform 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .team-card:hover { transform: translateY(-5px); border-color: var(--primary-green); }
+
+        .role-tag {
+            color: #4caf50;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .team-card h3 { margin: 5px 0; color: var(--primary-green); font-size: 18px; }
+        .info { font-size: 14px; color: var(--text-muted); line-height: 1.4; margin-bottom: 15px; flex: 1; }
+
+        .contact-details {
+            background: #f9fbf9;
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary-green);
+        }
+
+        .contact-details p { margin: 3px 0; font-size: 12px; font-weight: 600; color: var(--primary-green); }
+
+        .bottom-nav {
+            position: absolute; bottom: 20px; left: 50%; 
+            transform: translateX(-50%); width: 400px; 
+            background: #fff; border-radius: 30px; 
+            display: flex; justify-content: space-around; 
+            padding: 14px 0; box-shadow: 0 8px 30px rgba(0,0,0,0.2); z-index: 100;
+        }
+        .bottom-nav a { text-decoration: none; color: #555; font-size: 14px; font-weight: 500; }
+        .bottom-nav a.active { color: #4d8f6b; font-weight: 600; }
+
+        .side-nav { height: 100%; width: 0; position: fixed; z-index: 1000; top: 0; right: 0; background-color: var(--primary-green); overflow-x: hidden; transition: 0.5s; padding-top: 60px; }
+        .side-nav a { padding: 18px 32px; text-decoration: none; color: white; display: block; }
+        .close-btn { position: absolute; top: 10px; left: 20px; font-size: 30px; color: white; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div id="mySideNav" class="side-nav">
+    <span class="close-btn" onclick="toggleSideNav()">×</span>
+    <a href="index.html">Home</a>
+    <a href="explore.html">Explore</a>
+    <a href="profile.html">Profile</a>
+</div>
+
+<div class="card-container">
+    <div class="header">
+        <div class="back" onclick="location.href='explore.html'">←</div>
+        <h2>Implementation Team</h2>
+        <div class="menu" onclick="toggleSideNav()">☰</div>
+    </div>
+
+    <div class="content">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h1 style="color: var(--primary-green); margin-bottom: 5px;">Our Expert Engineers</h1>
+            <p style="color: var(--text-muted);">Turning your digital dreams into physical reality.</p>
+        </div>
+
+        <div class="grid">
+            <div class="team-card">
+                <span class="role-tag">Designer</span>
+                <h3>Liam Vance</h3>
+                <p class="info">Converts AI concepts into precise blueprints for construction crews.</p>
+                <div class="contact-details">
+                    <p>📧 liam.v@email.com</p>
+                    <p>📞 +91 897 756 3254</p>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <span class="role-tag">Safety Expert</span>
+                <h3>Dr. Surbhi Zork</h3>
+                <p class="info">Structural analysis and material selection for maximum durability.</p>
+                <div class="contact-details">
+                    <p>📧 surbhi.z@email.com</p>
+                    <p>📞 +91 877 856 5343</p>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <span class="role-tag">Systems Helper</span>
+                <h3>Marcus Thorne</h3>
+                <p class="info">Expert in hidden wiring, smart plumbing, and integrated lighting systems.</p>
+                <div class="contact-details">
+                    <p>📧 marcus.t@email.com</p>
+                    <p>📞 +91 948 547 8354</p>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <span class="role-tag">Furniture Maker</span>
+                <h3>Sofia Sterling</h3>
+                <p class="info">Handcrafts custom bespoke furniture exactly as seen in your designs.</p>
+                <div class="contact-details">
+                    <p>📧 sofia.s@email.com</p>
+                    <p>📞 +91 674 436 5445</p>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <span class="role-tag">Lighting Expert</span>
+                <h3>Julian Woosh</h3>
+                <p class="info">Recreates the exact mood and shadows from your AI images.</p>
+                <div class="contact-details">
+                    <p>📧 julian.w@email.com</p>
+                    <p>📞 +91 988 356 8743</p>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <span class="role-tag">Finalizer</span>
+                <h3>Sarah Jenkins</h3>
+                <p class="info">Quality control expert ensuring the final result matches your vision.</p>
+                <div class="contact-details">
+                    <p>📧 sarah.j@email.com</p>
+                    <p>📞 +91 984 395 7945</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <a href="index.html">Home</a>
+        <a href="explore.html">Explore</a>
+        <a href="profile.html" class="active">Profile</a>
+    </div>
+</div>
+
+<script>
+    function toggleSideNav() {
+        const sideNav = document.getElementById("mySideNav");
+        sideNav.style.width = (sideNav.style.width === "250px") ? "0" : "250px";
+    }
+</script>
+</body>
+</html>

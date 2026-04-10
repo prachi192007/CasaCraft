@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premium Interior Access</title>
+
+<style>
+:root{
+--primary-green:#2d5a27;
+--light-green:#e9f5ea;
+--accent-green:#4caf50;
+--white:#ffffff;
+--text-dark:#333;
+}
+
+body{
+font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+background-color:var(--white);
+color:var(--text-dark);
+margin:0;
+padding:40px 20px;
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+
+.header{text-align:center;margin-bottom:50px;}
+.header h1{color:var(--primary-green);font-size:2.5rem;}
+
+.pricing-container{
+display:flex;
+justify-content:center;
+gap:20px;
+max-width:1200px;
+width:100%;
+}
+
+.card{
+background:var(--white);
+border:2px solid var(--light-green);
+border-radius:15px;
+padding:30px;
+flex:1;
+min-width:300px;
+text-align:center;
+transition:.3s;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+}
+
+.card:hover{
+transform:translateY(-10px);
+box-shadow:0 15px 30px rgba(0,0,0,.1);
+border-color:var(--primary-green);
+}
+
+.card.featured{
+border-color:var(--primary-green);
+background-color:var(--light-green);
+transform:scale(1.05);
+}
+
+.card h2{color:var(--primary-green);}
+
+.price{font-size:1.6rem;font-weight:bold;margin:15px 0;}
+
+.features{list-style:none;padding:0;text-align:left;}
+.features li{margin-bottom:10px;}
+.features li::before{
+content:'✓';
+color:var(--accent-green);
+font-weight:bold;
+margin-right:10px;
+}
+
+.buy-btn{
+background:var(--primary-green);
+color:white;
+border:none;
+padding:15px;
+border-radius:8px;
+font-size:1rem;
+cursor:pointer;
+margin-top:20px;
+}
+
+.buy-btn:hover{background:var(--accent-green);}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<h1>Premium Packages</h1>
+<p>Your journey to a perfect home starts here.</p>
+</div>
+
+<div class="pricing-container">
+
+<div class="card">
+<h2>Free Trial</h2>
+<div class="price">1 Month</div>
+<ul class="features">
+<li>Access to Home Section photo uploads</li>
+<li>Basic personalized design</li>
+<li>View pre-designed areas</li>
+<li>Create User Profile</li>
+</ul>
+<button class="buy-btn" onclick="location.href='quiz.html'">Start Free Trial</button>
+</div>
+
+<div class="card featured">
+<h2>Quarterly</h2>
+<div class="price">3 Months</div>
+<ul class="features">
+<li>Everything in Free Trial</li>
+<li>Saved Designs Access</li>
+<li>Contact with Engineers</li>
+<li>Unlimited Requests</li>
+</ul>
+<button class="buy-btn">Unlock Premium</button>
+</div>
+
+<div class="card">
+<h2>Annual Access</h2>
+<div class="price">Yearly</div>
+<ul class="features">
+<li>Everything in Quarterly</li>
+<li>Priority Consultation</li>
+<li>Advanced Profile Customization</li>
+<li>High-res Downloads</li>
+</ul>
+<button class="buy-btn">Go Pro Yearly</button>
+</div>
+
+</div>
+
+</body>
+</html>

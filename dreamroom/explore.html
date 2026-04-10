@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explore Page</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+ --primary-green:#355f4a;
+ --hover-green:#2a4b3a;
+ --bg-beige:#f4efe7;
+ --white:#ffffff;
+ --text-main:#333;
+ --text-muted:#777;
+}
+
+*{
+ box-sizing:border-box;
+ font-family:'Inter',sans-serif;
+}
+
+body{
+ margin:0;
+ height:100vh;
+ background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
+ url("https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1600&q=80") center/cover no-repeat;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ overflow:hidden;
+}
+
+/* MAIN CARD (same style as profile page) */
+
+.card-container{
+ width:85%;
+ max-width:1100px;
+ height:85%;
+ background:#fff;
+ border-radius:24px;
+ display:flex;
+ flex-direction:column;
+ overflow:hidden;
+ position:relative;
+ box-shadow:0 20px 50px rgba(0,0,0,0.3);
+}
+.back-arrow {
+    font-size: 28px; /* Suitable size for the header */
+    cursor: pointer;
+    padding-right: 15px;
+    transition: 0.3s;
+    user-select: none;
+    display: flex;
+    align-items: center;
+}
+
+.back-arrow:hover {
+    transform: translateX(-5px);
+    opacity: 0.8;
+}
+
+.header{
+ justify-content: space-between;
+ background:var(--primary-green);
+ color:white;
+ padding:20px 40px;
+ display:flex;
+ align-items:center;
+}
+
+.header h2{
+ flex:1;
+ text-align:center;
+ margin:0;
+ font-weight:600;
+}
+
+.menu{
+ cursor:pointer;
+ font-size:22px;
+}
+
+/* CONTENT AREA */
+
+.content{
+ flex:1;
+ overflow-y:auto;
+ padding:30px;
+ background:#fafafa;
+scroll-behavior:smooth;
+}
+
+/* SEARCH */
+
+.search{
+ margin:20px 0;
+ background:white;
+ padding:14px 18px;
+ border-radius:16px;
+ display:flex;
+ align-items:center;
+ gap:12px;
+ border:1px solid #eee;
+}
+
+.search input{
+ border:none;
+ outline:none;
+ background:transparent;
+ flex:1;
+ font-size:14px;
+}
+
+/* FILTERS */
+
+.filters{
+ display:flex;
+ gap:12px;
+ overflow-x:auto;
+ margin-bottom:26px;
+}
+
+.chip{
+ padding:8px 18px;
+ border-radius:22px;
+ background:white;
+ font-size:14px;
+ cursor:pointer;
+ border:1px solid #eee;
+}
+
+.chip.active{
+ background:var(--primary-green);
+ color:white;
+}
+
+/* GRID */
+
+.grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+ gap:22px;
+}
+
+/* CARD IMAGE BLOCK */
+
+.card{
+ background:white;
+ border-radius:18px;
+ overflow:hidden;
+ box-shadow:0 10px 25px rgba(0,0,0,.08);
+ transition:transform .3s;
+}
+
+.card:hover{
+ transform:translateY(-5px);
+}
+
+.card img{
+ width:100%;
+ height:200px;
+ object-fit:cover;
+}
+
+.card-body{
+ padding:12px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+}
+
+.title{
+ font-size:14px;
+ font-weight:600;
+}
+
+.like{
+ font-size:20px;
+ cursor:pointer;
+ color:#ccc;
+}
+
+.like.active{
+ color:#ff4d6d;
+ transform:scale(1.2);
+}
+
+/* SIDE NAV */
+
+.side-nav{
+ height:100%;
+ width:0;
+ position:fixed;
+ top:0;
+ right:0;
+ background:var(--primary-green);
+ overflow-x:hidden;
+ transition:.4s;
+ padding-top:60px;
+ z-index:1000;
+}
+
+.side-nav a{
+ padding:16px 32px;
+ text-decoration:none;
+ color:white;
+ display:block;
+}
+
+.close-btn{
+ position:absolute;
+ top:10px;
+ left:20px;
+ font-size:32px;
+ color:white;
+ cursor:pointer;
+}
+.nav-links button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+}
+</style>
+</head>
+<body>
+
+<div id="mySideNav" class="side-nav">
+  <span class="close-btn" onclick="toggleSideNav()">&times;</span>
+  <a href="index.html">Home</a>
+  <a href="explore.html">Explore</a>
+  <a href="liked.html">Liked Designs</a>
+  <a href="profile.html">Profile</a>
+</div>
+
+<div class="card-container">
+
+<div class="header">
+    <div class="back-arrow" onclick="location.href='de.html'" title="Back to Home">←</div>
+    <h2>Explore</h2>
+    <div class="nav-links" style="display: flex; align-items: center; gap: 15px;">
+        <button onclick="location.href='cp.html'" style="padding: 8px 15px; border-radius: 8px; border: 1px solid white; background: transparent; color: white; font-size: 13px; cursor: pointer; font-weight: 500;">
+            Contact Engineers
+        </button>
+        <div class="menu" onclick="toggleSideNav()">☰</div>
+    </div>
+</div>
+<div class="content">
+<div class="search">
+    🔍
+    <input type="text" placeholder="Search designs..." onkeyup="searchCards(this.value)">
+    ⚙️
+</div>
+
+<div class="filters">
+<div class="chip active" onclick="filterCards('all',this)"><b>All</b></div>
+<div class="chip" onclick="filterCards('Modern living',this)"><b>Modern living</b></div>
+<div class="chip" onclick="filterCards('Bedroom',this)"><b>Bedroom</b></div>
+<div class="chip" onclick="filterCards('Kitchen',this)"><b>Kitchen</b></div>
+<div class="chip" onclick="filterCards('Boho Style',this)"><b>Boho Style</b></div>
+<div class="chip" onclick="filterCards('Traditional',this)"><b>Traditional</b></div>
+<div class="chip" onclick="filterCards('Office',this)"><b>Office</b></div>
+</div>
+
+<div class="grid">
+
+<div class="card" data-type="Modern living">
+<img src="https://jumanji.livspace-cdn.com/magazine/wp-content/uploads/2019/09/16191216/Contemporary-Living-Room-Easy-Functionality.jpg">
+<div class="card-body">
+<div class="title">Modern Living</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Modern living">
+<img src="https://artfasad.com/wp-content/uploads/2023/12/bright-living-room-ideas-9.jpg">
+<div class="card-body">
+<div class="title">Modern Living</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Modern living">
+<img src="https://cdn.luxatic.com/wp-content/uploads/2020/07/Mid-Century-Modern-Living-Room-3.jpg">
+<div class="card-body">
+<div class="title">Modern Living</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Modern living">
+<img src="https://www.decorilla.com/online-decorating/wp-content/uploads/2024/08/Living-room-trends-2025-by-Decorilla-scaled.jpeg">
+<div class="card-body">
+<div>
+<div class="title">Modern Living</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Modern living">
+<img src="http://cdn.home-designing.com/wp-content/uploads/2018/01/flying-pendant-lights-colourful-stools-kitsch-living-room.jpg">
+<div class="card-body">
+<div>
+<div class="title">Modern Living</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Modern living">
+<img src="http://roohome.com/wp-content/uploads/2016/11/Anastasia-Finko.jpg">
+<div class="card-body">
+<div>
+<div class="title">Modern Living</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Modern living">
+<img src="https://i.pinimg.com/originals/0b/3d/29/0b3d29bdf65cdb3c6cda86536b39c92f.jpg">
+<div class="card-body">
+<div>
+<div class="title">Modern Living</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Modern living">
+<img src="https://cdn.luxatic.com/wp-content/uploads/2020/07/Mid-Century-Modern-Living-Room-3.jpg">
+<div class="card-body">
+<div>
+<div class="title">Modern Living</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Modern living">
+<img src="https://decormatters-blog-uploads.s3.amazonaws.com/p4e251k5ozg64csjve84gb_94290b7862.jpeg">
+<div class="card-body">
+<div>
+<div class="title">Modern Living</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Modern living">
+<img src="https://cdn.decorilla.com/online-decorating/wp-content/uploads/2018/10/modern-living-room-neutral-walls.jpg">
+<div class="card-body">
+<div>
+<div class="title">Modern Living</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Modern living">
+<img src="http://diningandlivingroom.com/wp-content/uploads/2016/05/Beautiful-Contemporary-Living-Room-Design_05.jpg">
+<div class="card-body">
+<div>
+<div class="title">Modern Living</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Modern living">
+<img src="https://www.homeinspirationideas.net/wp-content/uploads/2022/05/Contemporary-Living-Room-Decor-Create-Unique-Interior-Designs-8-scaled.jpg">
+<div class="card-body">
+<div>
+<div class="title">Modern Living</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Modern living">
+<img src="https://i.ytimg.com/vi/xYYsZwuX2C8/maxresdefault.jpg">
+<div class="card-body">
+<div>
+<div class="title">Modern Living</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Modern living">
+<img src="http://www.home-designing.com/wp-content/uploads/2012/12/contemporary-living-room.jpg">
+<div class="card-body">
+<div>
+<div class="title">Modern Living</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Modern living">
+<img src="https://gotohomerepair.com/wp-content/uploads/2017/02/Chic-Contemporary-Living-Room-With-Gray-Sofa-.jpg">
+<div class="card-body">
+<div>
+<div class="title">Modern Living</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Modern living">
+<img src="http://thewowstyle.com/wp-content/uploads/2015/01/contemporary-living-room-wall-design.jpg">
+<div class="card-body">
+<div>
+<div class="title">Modern Living</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Modern living">
+<img src="https://www.laskasas.com/images/Contemporary-Living-Room-idea.jpg">
+<div class="card-body">
+<div>
+<div class="title">Modern Living</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Modern living">
+<img src="https://www.oppeinhome.com/upload/images/ueditor/20230710/10-modern-living-room-ideas-3.webp">
+<div class="card-body">
+<div>
+<div class="title">Modern Living</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Bedroom">
+<img src="https://i.pinimg.com/originals/29/26/3e/29263ec473ac9278a792c65aab0ec5f0.jpg">
+<div class="card-body">
+<div class="title">Bedroom</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Bedroom">
+<img src="https://www.decorilla.com/online-decorating/wp-content/uploads/2023/05/Accent-wall-for-a-contemporary-bedroom-interior-design-by-Casey-H.jpg">
+<div class="card-body">
+<div class="title">Bedroom</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Bedroom">
+<img src="http://cdn.architecturendesign.net/wp-content/uploads/2014/07/15135.jpg">
+<div class="card-body">
+<div class="title">Bedroom</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Bedroom">
+<img src="https://www.decorilla.com/online-decorating/wp-content/uploads/2022/08/Master-bedroom-interior-design-trends-2023-Nikola-P-1024x678.jpg">
+<div class="card-body">
+<div class="title">Bedroom</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Bedroom">
+<img src="https://dropinblog.net/34246798/files/featured/Brilliant_Tips_for_Stone_Types_Newbies.jpg">
+<div class="card-body">
+<div class="title">Bedroom</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Bedroom">
+<img src="https://jumanji.livspace-cdn.com/magazine/wp-content/uploads/sites/2/2022/06/10183457/small-bedroom-ideas.jpg">
+<div class="card-body">
+<div class="title">Bedroom</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Bedroom">
+<img src="https://evolveartisanal.com/wp-content/uploads/2021/07/3_Go-Bold-Or-Go-Home-Modern-Bedroom-Interior-Design.jpg">
+<div class="card-body">
+<div>
+<div class="title">Bedroom</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Bedroom">
+<img src="https://crlinterior.com/wp-content/uploads/2024/02/Bedroom-Interior-design-823x800.png">
+<div class="card-body">
+<div>
+<div class="title">Bedroom</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Bedroom">
+<img src="https://media.architecturaldigest.in/wp-content/uploads/2019/06/Pune-home-interiors-Mirari-Design-Visuals-daughter-room-5.jpg">
+<div class="card-body">
+<div>
+<div class="title">Bedroom</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Bedroom">
+<img src="https://i.pinimg.com/originals/9f/32/e4/9f32e48917e259521906ba38a389d5aa.jpg">
+<div class="card-body">
+<div>
+<div class="title">Bedroom</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Bedroom">
+<img src="https://www.milindpai.com/wp-content/uploads/2023/03/maxresdefault.jpg">
+<div class="card-body">
+<div>
+<div class="title">Bedroom</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Bedroom">
+<img src="http://thewowstyle.com/wp-content/uploads/2015/06/bedroom-design-ideas.jpg">
+<div class="card-body">
+<div>
+<div class="title">Bedroom</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Bedroom">
+<img src="https://www.decorilla.com/online-decorating/wp-content/uploads/2023/03/Mens-bedroom-ideas-by-Decorilla.jpg">
+<div class="card-body">
+<div>
+<div class="title">Bedroom</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Bedroom">
+<img src="https://i.pinimg.com/originals/94/f4/61/94f4611164a210413e5f52ca5d92e4ba.jpg">
+<div class="card-body">
+<div>
+<div class="title">Bedroom</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Bedroom">
+<img src="https://www.decorilla.com/online-decorating/wp-content/uploads/2023/10/2024-bed-trends-with-a-modular-bedframe-1024x701.jpg">
+<div class="card-body">
+<div>
+<div class="title">Bedroom</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Bedroom">
+<img src="https://1.bp.blogspot.com/-WTEneqE956E/UEpL83AYR2I/AAAAAAAADUA/SG1e48bQ44w/s1600/purple-bedroom.jpg">
+<div class="card-body">
+<div>
+<div class="title">Bedroom</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Bedroom">
+<img src="https://youmeandtrends.com/wp-content/uploads/2016/06/furniture-designs-wardrobe-designs-for-bedroom.jpg">
+<div class="card-body">
+<div>
+<div class="title">Bedroom</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Bedroom">
+<img src="https://i.pinimg.com/originals/28/76/aa/2876aab15b3cd5960fd4c4ef70d37711.jpg">
+<div class="card-body">
+<div>
+<div class="title">Bedroom</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Kitchen">
+<img src="http://www.designyourway.net/blog/wp-content/uploads/2012/02/Wonderful-Examples-Of-Kitchen-Makeover6.jpg">
+<div class="card-body">
+<div class="title">Kitchen</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Kitchen">
+<img src="http://media.architecturaldigest.com/photos/56903894f94a9e537168d90e/master/pass/25-1015-AD-DUFN05-02_wm.jpg">
+<div class="card-body">
+<div class="title">Kitchen</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Kitchen">
+<img src="https://www.hunarcourses.com/blog/wp-content/uploads/2021/04/home-interior-design-ideas.jpg">
+<div class="card-body">
+<div class="title">Kitchen</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Kitchen">
+<img src="https://i.pinimg.com/originals/44/96/67/449667f155afb606feff8484d771eecd.jpg">
+<div class="card-body">
+<div class="title">Kitchen</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Kitchen">
+<img src="https://www.decorilla.com/online-decorating/wp-content/uploads/2024/07/Modern-2025-kitchen-trends-by-DECORILLA-scaled.jpg">
+<div class="card-body">
+<div class="title">Kitchen</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Kitchen">
+<img src="https://foyr.com/learn/wp-content/uploads/2019/03/indian-kitchen-design-with-storage.jpg">
+<div class="card-body">
+<div class="title">Kitchen</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Kitchen">
+<img src="https://thearchitecturedesigns.com/wp-content/uploads/2019/11/20-modern-Kitchen.jpg">
+<div class="card-body">
+<div>
+<div class="title">Kitchen</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Kitchen">
+<img src="https://dlifeinteriors.com/wp-content/uploads/2020/09/dlife-interior-designers-kerala.jpg">
+<div class="card-body">
+<div>
+<div class="title">Kitchen</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Kitchen">
+<img src="http://thewowstyle.com/wp-content/uploads/2015/01/home-design-interior-design-kitchen-designer-kitchens-461-4140x2755.jpg">
+<div class="card-body">
+<div>
+<div class="title">Kitchen</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Kitchen">
+<img src="https://i.pinimg.com/originals/ac/fd/5d/acfd5dc0f17a054754101ff12ae459e9.jpg">
+<div class="card-body">
+<div>
+<div class="title">Kitchen</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Kitchen">
+<img src="https://www.decorilla.com/online-decorating/wp-content/uploads/2024/08/Contemporary-kitchen-trends-2025-.jpg">
+<div class="card-body">
+<div>
+<div class="title">Kitchen</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Kitchen">
+<img src="https://i.pinimg.com/originals/bf/d0/d6/bfd0d6347026079d2c4d895fbb10f378.jpg">
+<div class="card-body">
+<div>
+<div class="title">Kitchen</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Kitchen">
+<img src="https://media.designcafe.com/wp-content/uploads/2020/02/21004853/modern-kitchen-design-for-your-home.jpg">
+<div class="card-body">
+<div>
+<div class="title">Kitchen</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Kitchen">
+<img src="https://sketchup.cgtips.org/wp-content/uploads/2023/03/6903.-Free-Sketchup-Kitchen-Interior-Model-Download-By-Ravi-K-1-1536x878.jpg">
+<div class="card-body">
+<div>
+<div class="title">Kitchen</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Kitchen">
+<img src="https://cdn.decorilla.com/online-decorating/wp-content/uploads/2019/06/blue-kitchen-interior-design-ideas.jpg">
+<div class="card-body">
+<div>
+<div class="title">Kitchen</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Kitchen">
+<img src="https://i.pinimg.com/originals/f4/fc/ba/f4fcbac809aa45f7cb7abdb099318830.jpg">
+<div class="card-body">
+<div>
+<div class="title">Kitchen</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Kitchen">
+<img src="https://cdn.mos.cms.futurecdn.net/CRkvVQz7XZVMvRkwHGd5DM.jpg">
+<div class="card-body">
+<div>
+<div class="title">Kitchen</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Kitchen">
+<img src="https://sdg-migration-id.s3.amazonaws.com/Interior-Design-Mark-Zeff-Bond-Street-Residence-BoY.jpg">
+<div class="card-body">
+<div>
+<div class="title">Kitchen</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Boho Style">
+<img src="https://cdn.designrulz.com/wp-content/uploads/2017/11/bohemian-style-design.jpg">
+<div class="card-body">
+<div class="title">Boho Style</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Boho Style">
+<img src="https://www.makeoveridea.com/wp-content/uploads/boho-decorating-ideas/How-to-Decorate-in-Bohemian-Style-Use-a-Jewel-Toned-Color-Palette.webp">
+<div class="card-body">
+<div class="title">Boho Style</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Boho Style">
+<img src="https://sheholdsdearly.com/wp-content/uploads/2021/04/1-bohemian-decor-example-1.jpg">
+<div class="card-body">
+<div class="title">Boho Style</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Boho Style">
+<img src="https://axxla.com/wp-content/uploads/2023/03/boho2-1.png">
+<div class="card-body">
+<div>
+<div class="title">Boho Style</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Boho Style">
+<img src="https://global-uploads.webflow.com/5e93308b2af0f955a9a2e796/623a1a08e59eff6886d0c823_bohemian-interior-design.jpg">
+<div class="card-body">
+<div>
+<div class="title">Boho Style</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Boho Style">
+<img src="https://hommes.studio/wp-content/uploads/boho-a-timeless-interior-design-15.jpg">
+<div class="card-body">
+<div>
+<div class="title">Boho Style</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Boho Style">
+<img src="https://fthmb.tqn.com/kgKLx2EElYRAGB4bjLQFiLe1QqU=/1500x1500/filters:fill(auto,1)/boho-2-5851e35b5f9b586e02a78747.jpg">
+<div class="card-body">
+<div>
+<div class="title">Boho Style</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Boho Style">
+<img src="https://homesfornh.com/wp-content/uploads/2020/10/Bohemian-Bedroom-Design-with-Tropical-Style.jpg">
+<div class="card-body">
+<div>
+<div class="title">Boho Style</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Boho Style">
+<img src="https://i.pinimg.com/originals/87/83/cb/8783cb45119a9e0d4c2419cfa328bc70.jpg">
+<div class="card-body">
+<div>
+<div class="title">Boho Style</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Boho Style">
+<img src="https://casa.abril.com.br/wp-content/uploads/2020/07/decoracao-estilo-boho2.jpg?resize=768">
+<div class="card-body">
+<div>
+<div class="title">Boho Style</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Boho Style">
+<img src="https://i.pinimg.com/originals/d3/cb/45/d3cb452a793e079f83882f9b38bd6228.jpg">
+<div class="card-body">
+<div>
+<div class="title">Boho Style</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Boho Style">
+<img src="https://i.pinimg.com/originals/4a/f6/f4/4af6f459d8dae80f2dc6323448d68cac.jpg">
+<div class="card-body">
+<div>
+<div class="title">Boho Style</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Boho Style">
+<img src="https://acacia-gardens.co.uk/wp-content/uploads/2023/03/Bohemian-garden-style-image-2.jpg">
+<div class="card-body">
+<div>
+<div class="title">Boho Style</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Boho Style">
+<img src="https://ideabrasil.com.br/wp-content/uploads/2018/06/sala-decorada-Boho-Chic-10.jpg">
+<div class="card-body">
+<div>
+<div class="title">Boho Style</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Boho Style">
+<img src="https://i.pinimg.com/originals/ca/a4/8c/caa48c89034f37c0ce945f67bd67b2f7.jpg">
+<div class="card-body">
+<div>
+<div class="title">Boho Style</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Boho Style">
+<img src="https://guzeloldu.com/wp-content/uploads/2022/09/modern-bohem-dekorasyon.jpg">
+<div class="card-body">
+<div class="title">Boho Style</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Boho Style">
+<img src="https://www.oknoplus.com.pl/wp-content/uploads/2023/05/boho-inspiracje.jpg">
+<div class="card-body">
+<div class="title">Boho Style</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Boho Style">
+<img src="https://i.pinimg.com/originals/3c/73/ec/3c73ec064ce8210620616a05c3636f35.jpg">
+<div class="card-body">
+<div class="title">Boho Style</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Traditional">
+<img src="https://foyr.com/learn/wp-content/uploads/2022/06/traditional-interior-design-for-bedroom-1024x576.jpg">
+<div class="card-body">
+<div class="title">Traditional</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Traditional">
+<img src="https://www.decorilla.com/online-decorating/wp-content/uploads/2023/02/Living-room-with-a-traditional-interior-design-by-Jamie-M.jpg">
+<div class="card-body">
+<div class="title">Traditional</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Traditional">
+<img src="http://hgtvhome.sndimg.com/content/dam/images/hgtv/fullset/2004/1/13/2/forte_livarea_l.jpg.rend.hgtvcom.1280.960.suffix/1400928860173.jpeg">
+<div class="card-body">
+<div class="title">Traditional</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Traditional">
+<img src="https://4.bp.blogspot.com/-7uVGkB1w0Cw/UvA9voegRZI/AAAAAAAABoE/5nEPAzmbIBs/s1600/leovantraditional.jpg">
+<div class="card-body">
+<div>
+<div class="title">Traditional</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Traditional">
+<img src="https://awedeco.com/wp-content/uploads/2025/07/a-guide-to-traditional-interior-design-styles-1024x574.jpg">
+<div class="card-body">
+<div>
+<div class="title">Traditional</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Traditional">
+<img src="https://www.decorilla.com/online-decorating/wp-content/uploads/2018/11/Traditional-style-living-room-by-Decorilla-designer-Drew-F.-.jpeg">
+<div class="card-body">
+<div>
+<div class="title">Traditional</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Traditional">
+<img src="https://mydecoratingtips.com/wp-content/uploads/2018/03/Gold-living-room-front-view--800x560.jpg">
+<div class="card-body">
+<div>
+<div class="title">Traditional</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Traditional">
+<img src="https://s3.amazonaws.com/homestratosphere/wp-content/uploads/2015/12/29184609/27-Traditional-Living-Rooms.jpg">
+<div class="card-body">
+<div>
+<div class="title">Traditional</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Traditional">
+<img src="https://archlux.net/web/wp-content/uploads/2018/08/Handcrafted-Furniture-in-Indian-Style-Living-Room.jpg">
+<div class="card-body">
+<div>
+<div class="title">Traditional</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Traditional">
+<img src="https://i.pinimg.com/originals/c2/8a/b2/c28ab2d60282d44455fc2141e19dcbec.jpg">
+<div class="card-body">
+<div>
+<div class="title">Traditional</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Traditional">
+<img src="https://www.monnaie.in/wp-content/uploads/2018/10/kerala-traditional-style-interiors.jpg">
+<div class="card-body">
+<div>
+<div class="title">Traditional</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Traditional">
+<img src="https://i.pinimg.com/736x/ef/a8/69/efa86956b41ddd44f0ad4c7c533954fe.jpg">
+<div class="card-body">
+<div>
+<div class="title">Traditional</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Traditional">
+<img src="https://i.pinimg.com/originals/ac/ca/69/acca694f37b8e7a86220309949bd629f.jpg">
+<div class="card-body">
+<div>
+<div class="title">Traditional</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Traditional">
+<img src="https://www.andacademy.com/resources/wp-content/uploads/2024/03/image7.jpg">
+<div class="card-body">
+<div>
+<div class="title">Traditional</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Traditional">
+<img src="https://mir-s3-cdn-cf.behance.net/projects/404/ce9c3a76770533.Y3JvcCw1NzI3LDQ0ODAsNDk2LDA.jpg">
+<div class="card-body">
+<div>
+<div class="title">Traditional</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Traditional">
+<img src="https://assets.architecturaldigest.in/photos/60cc34ce3f2db0747b7c1f6c/master/w_1600%2Cc_limit/Kerala-Insitu-by-kalakaarihaath-home-photo-2-1.jpg">
+<div class="card-body">
+<div class="title">Traditional</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Traditional">
+<img src="https://i.pinimg.com/originals/42/be/fe/42befe368d3fd83e7e8201eb9a46e655.jpg">
+<div class="card-body">
+<div class="title">Traditional</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Traditional">
+<img src="https://i.pinimg.com/originals/84/16/02/841602c47fc9ce2fa514d89b1c115f17.jpg">
+<div class="card-body">
+<div class="title">Traditional</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Office">
+<img src="https://i.pinimg.com/originals/dd/72/02/dd72024427f0bbb09c570a995a8a9b59.jpg">
+<div class="card-body">
+<div class="title">Office</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Office">
+<img src="https://i.pinimg.com/736x/dc/a8/a5/dca8a5ee0dcf135605d1a2e7eeae0f69.jpg">
+<div class="card-body">
+<div class="title">Office</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Office">
+<img src="https://www.architectureartdesigns.com/wp-content/uploads/2015/04/1431-630x454.jpg">
+<div class="card-body">
+<div class="title">Office</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Office">
+<img src="https://fancyhouse-design.com/wp-content/uploads/2024/01/A-contemporary-executive-desk-features-a-sleek-design-and-ample-workspace.jpg">
+<div class="card-body">
+<div>
+<div class="title">Office</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Office">
+<img src="https://i.pinimg.com/originals/de/c0/43/dec043c5bab68cd40f1fbb22c6678183.jpg">
+<div class="card-body">
+<div>
+<div class="title">Office</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Office">
+<img src="https://cowhideoutlet.com/media/wysiwyg/modern-interior-design-style.jpg">
+<div class="card-body">
+<div>
+<div class="title">Office</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Office">
+<img src="https://thumbs.dreamstime.com/b/modern-interior-design-office-computers-furniture-modern-interior-design-office-computers-254461110.jpg">
+<div class="card-body">
+<div>
+<div class="title">Office</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Office">
+<img src="https://officesnapshots.com/wp-content/uploads/2015/11/Meadows_Conference_Room_1.jpg">
+<div class="card-body">
+<div>
+<div class="title">Office</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Office">
+<img src="https://www.99acres.com/microsite/wp-content/blogs.dir/6161/files/2023/09/Glass-partitions.jpg">
+<div class="card-body">
+<div>
+<div class="title">Office</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Office">
+<img src="https://www.jdesigngroup.com/interior-designer-blog/wp-content/uploads/modern-office-interior-design.jpg">
+<div class="card-body">
+<div>
+<div class="title">Office</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Office">
+<img src="https://officebanao.com/wp-content/uploads/2024/03/modern-office-room-with-white-walls.jpg">
+<div class="card-body">
+<div>
+<div class="title">Office</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Office">
+<img src="https://i.pinimg.com/originals/68/fe/fc/68fefc3b1c8e0b291d5a9d9c18069282.jpg">
+<div class="card-body">
+<div>
+<div class="title">Office</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Office">
+<img src="https://i.pinimg.com/originals/cb/14/dd/cb14ddd57ff4c9b84fdf5a705481a3b9.jpg">
+<div class="card-body">
+<div>
+<div class="title">Office</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Office">
+<img src="https://images.livspace-cdn.com/plain/https://jumanji.livspace-cdn.com/magazine/wp-content/uploads/sites/2/2023/03/04064327/Untitled.jpeg">
+<div class="card-body">
+<div>
+<div class="title">Office</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Office">
+<img src="https://officebanao.com/wp-content/uploads/2023/10/Modern-Offices_459.jpg">
+<div class="card-body">
+<div>
+<div class="title">Office</div>
+</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Office">
+<img src="https://i.pinimg.com/originals/c5/55/1c/c5551c3c725ba73ca0f37fa80334f752.jpg">
+<div class="card-body">
+<div class="title">Office</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Office">
+<img src="https://www.decorilla.com/online-decorating/wp-content/uploads/2022/03/modern-office-design-for-a-large-conference-room-1024x838.jpeg">
+<div class="card-body">
+<div class="title">Office</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+
+<div class="card" data-type="Office">
+<img src="https://www.decorilla.com/online-decorating/wp-content/uploads/2022/03/Modern-Office-Interior-with-Open-Floor-Plan-scaled.jpeg">
+<div class="card-body">
+<div class="title">Office</div>
+<div class="like" onclick="like(this)">♡</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+    if (localStorage.getItem('isLoggedIn') !== 'true') {
+        window.location.href = "login.html";
+    }
+    function toggleSideNav() {
+    const sideNav = document.getElementById("mySideNav");
+    if (sideNav.style.width === "250px") {
+        sideNav.style.width = "0";
+    } else {
+        sideNav.style.width = "250px";
+    }
+}
+// Check localStorage on load to keep hearts active
+document.addEventListener("DOMContentLoaded", () => {
+    const likedImages = JSON.parse(localStorage.getItem('likedImages')) || [];
+    document.querySelectorAll('.card').forEach(card => {
+        const src = card.querySelector('img').src;
+        if (likedImages.includes(src)) {
+            const heart = card.querySelector('.like');
+            heart.classList.add('active');
+            heart.innerHTML = "♥";
+        }
+    });
+});
+
+function like(el){
+    el.classList.toggle("active");
+    const imgUrl = el.closest('.card').querySelector('img').src;
+    let likedImages = JSON.parse(localStorage.getItem('likedImages')) || [];
+
+    if(el.classList.contains("active")){
+        el.innerHTML = "♥";
+        if(!likedImages.includes(imgUrl)) {
+            likedImages.push(imgUrl);
+        }
+    } else {
+        el.innerHTML = "♡";
+        likedImages = likedImages.filter(url => url !== imgUrl);
+    }
+    // Save to local storage for liked.html to read
+    localStorage.setItem('likedImages', JSON.stringify(likedImages));
+}
+
+function filterCards(type,btn){
+ let cards=document.querySelectorAll(".card");
+
+ cards.forEach(card=>{
+  if(type==="all" || card.dataset.type===type){
+   card.style.display="block";
+  }else{
+   card.style.display="none";
+  }
+ });
+
+ document.querySelectorAll(".chip").forEach(c=>c.classList.remove("active"));
+ btn.classList.add("active");
+}
+
+function searchCards(text){
+ text=text.toLowerCase();
+ let cards=document.querySelectorAll(".card");
+
+ cards.forEach(card=>{
+  let title=card.querySelector(".title").innerText.toLowerCase();
+  card.style.display=title.includes(text) ? "block" : "none";
+ });
+}
+
+function toggleTheme(){
+ document.body.classList.toggle("dark");
+}
+
+</script>
+
+</body>
+</html>
